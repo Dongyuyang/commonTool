@@ -45,7 +45,7 @@ T inner_product(const std::vector<T> &a, const std::vector<T> &b)
 {
   T result = 0;
   for(int i = 0; i < a.size();i++)
-	result += a[i] * b[i]
+    result += a[i] * b[i];
   return result;
 }
 
