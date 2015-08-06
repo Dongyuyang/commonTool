@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-
+#include <map>
 
 /* get the mbr from a points vector
  * @param points double vector of points
@@ -47,6 +47,16 @@ T inner_product(const std::vector<T> &a, const std::vector<T> &b)
   for(int i = 0; i < a.size();i++)
     result += a[i] * b[i];
   return result;
+}
+
+
+/* update a buffer of map
+ */
+template <typename KEY, typename VALUE>
+void update_buffer(std::multimap<KEY,VALUE> &buffer, KEY key, VALUE value)
+{
+  buffer.insert(std::pair<KEY,VALUE>(key,value));
+  buffer.erase(std::prev( buffer.end() ));
 }
 
 
