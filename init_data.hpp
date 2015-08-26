@@ -8,6 +8,15 @@
 #include <fstream>
 #include <sstream>
 
+/*get a rand double value*/
+double get_rand(double lower_bound, double upper_bound)
+{
+  std::uniform_real_distribution<double> unif(lower_bound, upper_bound);
+  std::random_device rand_dev;          // Use random_device to get a random seed.
+  std::mt19937 rand_engine(rand_dev()); // mt19937 is a good pseudo-random number
+  // generator.
+  return unif(range_engine);
+}
 
 /*Uniform distribution data*/
 void randinit(std::vector<std::vector<double> > &points, int dimension, double lower_bound, double upper_bound)

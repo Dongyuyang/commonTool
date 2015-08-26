@@ -53,9 +53,14 @@ T distance_no_sqrt(const std::vector<T> &p1, const std::vector<T> &p2)
 }
 
 
-/* println a vector for debug
- * @param v a vecfor to print
- */
+/*put*/
+template <typename T>
+void put(T v)
+{
+    std::cout << v << " ";
+}
+
+/*put vector*/
 template <typename T>
 void put_vector(const std::vector<T> &v)
 {
