@@ -15,7 +15,7 @@ double get_rand(double lower_bound, double upper_bound)
   std::random_device rand_dev;          // Use random_device to get a random seed.
   std::mt19937 rand_engine(rand_dev()); // mt19937 is a good pseudo-random number
   // generator.
-  return unif(range_engine);
+  return unif(rand_engine);
 }
 
 /*Uniform distribution data*/
