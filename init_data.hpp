@@ -33,7 +33,33 @@ void randinit(std::vector<std::vector<double> > &points, int dimension, double l
       v.push_back(unif(rand_engine));
     points[i] = v;
   }  
+}
 
+// sum = 1
+void randinit_w(std::vector<std::vector<double> > &points, int dimension, double lower_bound, double upper_bound)
+{
+  std::uniform_real_distribution<double> unif(lower_bound, upper_bound);
+
+  std::random_device rand_dev;          // Use random_device to get a random seed.
+  std::mt19937 rand_engine(rand_dev()); // mt19937 is a good pseudo-random number
+  // generator.
+
+  for(int i = 0; i < points.size();i++){
+    std::vector<double> v(dimension);
+    double sum = 0.0;
+    for(int j = 0; j < dimension; j++){
+      v[j] = (unif(rand_engine));
+      sum += v[j];
+    }
+
+    double unit = 1.0 / sum;
+    sum = 0;
+    for(int j = 0; j < dimension; j++){
+      v[j] *= unit;
+      sum += v[j];
+    }
+    points[i] = v;
+  }  
 }
 
 /*read data from file*/
