@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <vector>
 #include <map>
+#include <fstream>
 
 /* get the mbr from a points vector
  * @param points double vector of points
@@ -77,8 +78,19 @@ template <typename T>
 T inner_product(const std::vector<T> &a, const std::vector<T> &b)
 {
   T result = 0;
-  for(int i = 0; i < a.size();i++)
+  for(int i = 0; i < a.size();i++){
     result += a[i] * b[i];
+  }
+  return result;
+}
+
+template <typename T>
+T inner_sum(const std::vector<T> &a, const std::vector<T> &b)
+{
+  T result = 0;
+  for(int i = 0; i < a.size();i++){
+    result += a[i] + b[i];
+  }
   return result;
 }
 
@@ -92,4 +104,67 @@ void update_buffer(std::multimap<KEY,VALUE> &buffer, KEY key, VALUE value)
   buffer.erase(std::prev( buffer.end() ));
 }
 
+/*write a double vec to file*/
+void write_vec(const std::string s,const std::vector<std::vector<double> > &v)
+{
+  std::ofstream myfile(s);
+  if(myfile.is_open()){
+    for(int i = 0; i < v.size();i++){
+      for(int j = 0; j < v[i].size();j++){
+	if(j == v[i].size() - 1)
+	  myfile << v[i][j];
+	else
+	  myfile << v[i][j] << " ";
+      }
+      myfile << "\n";
+    }
+    myfile.close();
+  }else{
+    std::cout << "Unable to open file";
+  }
+}
+
+typedef unsigned char BYTE;
+std::vector<BYTE> read_by_BYTE(std::string path)
+{
+  // open the file:
+  std::ifstream file("Sample.dat", std::ios::binary);
+  // Stop eating new lines in binary mode!!!
+  file.unsetf(std::ios::skipws);
+  // get its size:
+  std::streampos fileSize;
+  file.seekg(0, std::ios::end);
+  fileSize = file.tellg();
+  file.seekg(0, std::ios::beg);
+  // reserve capacity
+  std::vector<BYTE> vec;
+  vec.reserve(fileSize);
+  // read the data:
+  vec.insert(vec.begin(),
+	     std::istream_iterator<BYTE>(file),
+	     std::istream_iterator<BYTE>());
+  
+  return vec;
+}
+
+
+
+/*binary string to double int vec*/
+void b_to_vec(std::vector<std::vector<int> > &p, int dimension,int bits,  std::string &s)
+{
+  int index = 0;
+  int value = 0;
+  int bit = bits - 1;
+  for(int n = 0; n < p.size(); n++){
+    std::vector<int> temp(dimension);
+    for(int i = 0; i < dimension; i++){
+      for(int j = bits - 1; j >=1 ; j--){
+	std::cout << s[index++];
+	//value += pow(2,j);
+      }
+      temp[i] = value;
+    }
+    p.push_back(temp);
+  }
+}
 

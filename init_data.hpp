@@ -97,6 +97,21 @@ void randinit_w(std::vector<std::vector<double> > &points, int dimension, double
   }  
 }
 
+void read_file(std::vector<std::vector<double> > &points, int dimension, std::string path)
+{
+  std::ifstream ifs(path);
+  std::vector<double> v((std::istream_iterator<double>(ifs)), std::istream_iterator<double>());
+
+  int num = 0;
+  int count = 0;
+  for(int i = 0; i < points.size();i++){
+    for(int j = 0; j < dimension; j ++){
+      points[i].push_back(v[num++]);
+    }
+  }
+
+}
+
 /*read data from file*/
 void read_point_file(std::vector<std::vector<double> > &points, int dimension, std::string path)
 {
