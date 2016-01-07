@@ -128,7 +128,7 @@ typedef unsigned char BYTE;
 std::vector<BYTE> read_by_BYTE(std::string path)
 {
   // open the file:
-  std::ifstream file("Sample.dat", std::ios::binary);
+  std::ifstream file(path, std::ios::binary);
   // Stop eating new lines in binary mode!!!
   file.unsetf(std::ios::skipws);
   // get its size:
