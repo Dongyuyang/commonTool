@@ -19,7 +19,7 @@ std::vector<std::vector<T> > get_mbr(const std::vector<std::vector<T> > &points)
       min[j] = std::min(min[j],points[i][j]);
     }
   }
-  
+
   return {min,max};
 }
 
@@ -38,7 +38,7 @@ std::vector<std::vector<T> > get_square_mbr(const std::vector<std::vector<T> > &
   std::vector<T> up;
   for(int i = 0; i < mbr[0].size();i++)
     up.push_back(mbr[0][i] + max);
-    
+
   return {mbr[0],up};
 }
 
@@ -84,6 +84,7 @@ T inner_product(const std::vector<T> &a, const std::vector<T> &b)
   return result;
 }
 
+/*inner sum*/
 template <typename T>
 T inner_sum(const std::vector<T> &a, const std::vector<T> &b)
 {
@@ -92,6 +93,14 @@ T inner_sum(const std::vector<T> &a, const std::vector<T> &b)
     result += a[i] + b[i];
   }
   return result;
+}
+
+
+/*cosine similarity*/
+template <typename T>
+T cos_sim(const std::vector<T> &a, const std::vector<T> &b)
+{
+  return inner_product(a,b)/ (inner_product(a,a) * inner_product(b,b));
 }
 
 
@@ -107,21 +116,21 @@ void update_buffer(std::multimap<KEY,VALUE> &buffer, KEY key, VALUE value)
 /*write a double vec to file*/
 void write_vec(const std::string s,const std::vector<std::vector<double> > &v)
 {
-  std::ofstream myfile(s);
-  if(myfile.is_open()){
-    for(int i = 0; i < v.size();i++){
-      for(int j = 0; j < v[i].size();j++){
-	if(j == v[i].size() - 1)
-	  myfile << v[i][j];
-	else
-	  myfile << v[i][j] << " ";
-      }
-      myfile << "\n";
+    std::ofstream myfile(s);
+    if(myfile.is_open()){
+        for(int i = 0; i < v.size();i++){
+            for(int j = 0; j < v[i].size();j++){
+                if(j == v[i].size() - 1)
+                    myfile << v[i][j];
+                else
+                    myfile << v[i][j] << " ";
+            }
+            myfile << "\n";
+        }
+        myfile.close();
+    }else{
+        std::cout << "Unable to open file";
     }
-    myfile.close();
-  }else{
-    std::cout << "Unable to open file";
-  }
 }
 
 typedef unsigned char BYTE;
@@ -143,7 +152,7 @@ std::vector<BYTE> read_by_BYTE(std::string path)
   vec.insert(vec.begin(),
 	     std::istream_iterator<BYTE>(file),
 	     std::istream_iterator<BYTE>());
-  
+
   return vec;
 }
 

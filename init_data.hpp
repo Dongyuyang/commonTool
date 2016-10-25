@@ -18,6 +18,31 @@ double get_rand(double lower_bound, double upper_bound)
   return unif(rand_engine);
 }
 
+int get_rand_int(int low, int up)
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(low, up);
+
+    return dis(gen);
+}
+
+/*get non-negative integer values with a given sum*/
+std::vector<double> get_rand_int_with_sum(int num, int sum)
+{
+    std::vector<double> result(num,0);
+    int t_sum = sum;
+    for(int i = 0; i < num; i++){
+        int value = get_rand_int(0, t_sum);
+        t_sum -= value;
+        if(t_sum >= 0)
+            result[i] = value;
+        else
+            break;
+    }
+    return result;
+}
+
 /*Uniform distribution data*/
 void randinit(std::vector<std::vector<double> > &points, int dimension, double lower_bound, double upper_bound)
 {
@@ -32,28 +57,30 @@ void randinit(std::vector<std::vector<double> > &points, int dimension, double l
     for(int j = 0; j < dimension; j++)
       v.push_back(unif(rand_engine));
     points[i] = v;
-  }  
+  }
 }
 
+/*normal distribution*/
 void normal_init(std::vector<std::vector<double> > &points, int dimension, double mu, double sigma, double lower_bound, double upper_bound)
 {
   std::default_random_engine generator;
   std::normal_distribution<double> distribution(mu,sigma);
   // generator.
-  
+
   for(int i = 0; i < points.size();i++){
-    std::vector<double> v;
-    for(int j = 0; j < dimension; j++){
-      double value = distribution(generator);
-      if(value > lower_bound && value < upper_bound)
-	v.push_back(value);
-      else
-	j--;
-    }
-    points[i] = v;
-  }  
+      std::vector<double> v;
+      for(int j = 0; j < dimension; j++){
+          double value = distribution(generator);
+          if(value > lower_bound && value < upper_bound)
+              v.push_back(value);
+          else
+              j--;
+      }
+      points[i] = v;
+  }
 }
 
+/*cluster data*/
 void cluster_init(std::vector<std::vector<double> > &points, int dimension, double lower_bound, double upper_bound, double sigma)
 {
   int center_num = 10;
@@ -94,7 +121,7 @@ void randinit_w(std::vector<std::vector<double> > &points, int dimension, double
       sum += v[j];
     }
     points[i] = v;
-  }  
+  }
 }
 
 void read_file(std::vector<std::vector<double> > &points, int dimension, std::string path)
@@ -115,7 +142,6 @@ void read_file(std::vector<std::vector<double> > &points, int dimension, std::st
 /*read data from file*/
 void read_point_file(std::vector<std::vector<double> > &points, int dimension, std::string path)
 {
-  std::cout << path << std::endl;
   std::ifstream ifs("/Users/dse2015/Desktop/Research/ARKR/data/houseD6.csv");
   std::vector<double> v((std::istream_iterator<double>(ifs)), std::istream_iterator<double>());
 
@@ -124,17 +150,13 @@ void read_point_file(std::vector<std::vector<double> > &points, int dimension, s
   for(int i = 0; i < points.size();i++){
     for(int j = 0; j < dimension; j ++){
       if(v[num] > 10000)
-	points[i].push_back(get_rand(0,1));
+          points[i].push_back(get_rand(0,1));
       else{
-	count++;
-	points[i].push_back(v[num]/10000);
+          count++;
+          points[i].push_back(v[num]/10000);
       }
       num++;
     }
   }
-
-  
-  std::cout << "coount" << count << std::endl;
-  
 }
 
